@@ -17,6 +17,11 @@ export class ContactsController {
     return this.contactsService.findAll();
   }
 
+  @Get('usuario/:usuarioId')
+  findByUsuario(@Param('usuarioId') usuarioId: string) {
+    return this.contactsService.findByUsuario(+usuarioId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contactsService.findOne(+id);

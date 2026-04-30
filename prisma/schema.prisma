@@ -1,27 +1,38 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Contact {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  email     String   @unique
-  telefone  String
-  createdAt DateTime @default(now())
+model Usuario {
+  idusuario        Int       @id @default(autoincrement())
+  nomeusuario      String    @db.VarChar(150)
+  emailusuario     String    @unique @db.VarChar(150)
+  usuariosenha     String    @db.VarChar(255)
+  data_criacao     DateTime  @default(now()) @db.Timestamp(0)
+  data_atualizacao DateTime  @updatedAt @db.Timestamp(0)
+  contatos         Contato[]
+
+  @@map("usuario")
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
+model Contato {
+  idcontato        Int      @id @default(autoincrement())
+  nomecontato      String   @db.VarChar(150)
+  telefonecontato  String   @db.VarChar(20)
+  emailcontato     String   @db.VarChar(150)
+  enderecocontato  String   @db.VarChar(255)
+  usuario_idusuario Int
+  data_criacao     DateTime @default(now()) @db.Timestamp(0)
+  data_atualizacao DateTime @updatedAt @db.Timestamp(0)
+  
+  usuario          Usuario  @relation(fields: [usuario_idusuario], references: [idusuario])
+
+  @@map("contato")
 }
