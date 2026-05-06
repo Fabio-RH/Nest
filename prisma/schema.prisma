@@ -15,24 +15,27 @@ model Usuario {
   nomeusuario      String    @db.VarChar(150)
   emailusuario     String    @unique @db.VarChar(150)
   usuariosenha     String    @db.VarChar(255)
-  data_criacao     DateTime  @default(now()) @db.Timestamp(0)
-  data_atualizacao DateTime  @updatedAt @db.Timestamp(0)
+
+  data_criacao     DateTime  @default(now())
+  data_atualizacao DateTime  @updatedAt
+
   contatos         Contato[]
 
   @@map("usuario")
 }
 
 model Contato {
-  idcontato        Int      @id @default(autoincrement())
-  nomecontato      String   @db.VarChar(150)
-  telefonecontato  String   @db.VarChar(20)
-  emailcontato     String   @db.VarChar(150)
-  enderecocontato  String   @db.VarChar(255)
+  idcontato         Int      @id @default(autoincrement())
+  nomecontato       String   @db.VarChar(150)
+  telefonecontato   String   @db.VarChar(20)
+  emailcontato      String   @db.VarChar(150)
+  enderecocontato   String   @db.VarChar(255)
+
   usuario_idusuario Int
-  data_criacao     DateTime @default(now()) @db.Timestamp(0)
-  data_atualizacao DateTime @updatedAt @db.Timestamp(0)
-  
-  usuario          Usuario  @relation(fields: [usuario_idusuario], references: [idusuario])
+  usuario           Usuario  @relation(fields: [usuario_idusuario], references: [idusuario])
+
+  data_criacao     DateTime @default(now())
+  data_atualizacao DateTime @updatedAt
 
   @@map("contato")
 }
